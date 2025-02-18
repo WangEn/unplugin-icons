@@ -1,0 +1,23 @@
+{
+  "name": "rspack",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=development rspack serve",
+    "build": "NODE_ENV=production rspack build"
+  },
+  "dependencies": {
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@iconify/json": "^2.2.308",
+    "@rspack/cli": "^1.2.3",
+    "@rspack/core": "^1.2.3",
+    "unplugin-icons": "workspace:*",
+    "vue-loader": "^17.4.2"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
+  }
+}

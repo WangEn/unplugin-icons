@@ -39,6 +39,11 @@ export interface Options {
   iconCustomizer?: IconCustomizer
 
   /**
+   * Current working directory for resolving collections from node_modules
+   */
+  collectionsNodeResolvePath?: string | string[]
+
+  /**
    * Transform raw `svg`.
    *
    * **WARNING**: `transform` will be only applied when using `custom` icon collection.
@@ -72,7 +77,7 @@ export interface Options {
    *
    * @default (detect automatically, fallback to 'react')
    */
-  jsx?: 'react' | 'preact'
+  jsx?: 'react' | 'preact' | 'qwik'
 
   /**
    * Config for Web Components compiler

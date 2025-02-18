@@ -1,6 +1,7 @@
-import { getPackageInfo, isPackageExists } from 'local-pkg'
-import createDebugger from 'debug'
 import type { Options, ResolvedOptions } from '../types'
+import process from 'node:process'
+import createDebugger from 'debug'
+import { getPackageInfo, isPackageExists } from 'local-pkg'
 
 const debug = createDebugger('unplugin-icons:options')
 
@@ -15,6 +16,7 @@ export async function resolveOptions(options: Options): Promise<ResolvedOptions>
     iconCustomizer = () => {},
     transform,
     autoInstall = false,
+    collectionsNodeResolvePath = process.cwd(),
   } = options
 
   const webComponents = Object.assign({
@@ -35,6 +37,7 @@ export async function resolveOptions(options: Options): Promise<ResolvedOptions>
     webComponents,
     transform,
     autoInstall,
+    collectionsNodeResolvePath,
   }
 }
 
@@ -51,9 +54,9 @@ function guessJSX(): ResolvedOptions['jsx'] {
 async function getVueVersion() {
   try {
     const result = await getPackageInfo('vue')
-    if (!result)
+    if (!result || !result.version)
       return null
-    return result.version.startsWith('2.') ? 'vue2' : 'vue3'
+    return result.version?.startsWith('2.') ? 'vue2' : 'vue3'
   }
   catch {
     return null

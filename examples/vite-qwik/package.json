@@ -1,6 +1,8 @@
 {
+  "name": "vite-qwik-example",
   "type": "module",
   "private": true,
+  "description": "unplugin-icons + Qwik (Vite)",
   "scripts": {
     "build": "qwik build",
     "build.client": "vite build",
@@ -15,19 +17,24 @@
   },
   "devDependencies": {
     "@builder.io/qwik": "1.2.10",
+    "@svgx/core": "^1.0.1",
     "@types/eslint": "8.44.2",
-    "@types/node": "^20.5.7",
+    "@types/node": "^22.13.4",
     "@types/node-fetch": "latest",
-    "@typescript-eslint/eslint-plugin": "6.4.1",
-    "@typescript-eslint/parser": "6.4.1",
+    "@typescript-eslint/eslint-plugin": "6.5.0",
+    "@typescript-eslint/parser": "6.5.0",
     "eslint": "8.48.0",
     "eslint-plugin-qwik": "1.2.10",
     "node-fetch": "3.3.2",
-    "prettier": "3.0.2",
+    "prettier": "3.0.3",
     "typescript": "5.2.2",
     "undici": "5.23.0",
     "unplugin-icons": "workspace:*",
     "vite": "4.4.9",
     "vite-tsconfig-paths": "4.2.0"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }

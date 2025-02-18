@@ -45,6 +45,13 @@ export interface ComponentResolverOption {
    * @deprecated renamed to `prefix`
    */
   componentPrefix?: string
+
+  /**
+   * For collections strict matching.
+   * Default is `false`, not side effect.
+   * Set `true` to enable strict matching with `-` suffix for all collections.
+   */
+  strict?: boolean
 }
 
 /**
@@ -59,6 +66,7 @@ export default function ComponentsResolver(options: ComponentResolverOption = {}
     alias = {},
     customCollections = [],
     extension,
+    strict = false,
   } = options
 
   const prefix = rawPrefix ? `${camelToKebab(rawPrefix)}-` : ''
@@ -77,16 +85,38 @@ export default function ComponentsResolver(options: ComponentResolverOption = {}
   collections.sort((a, b) => b.length - a.length)
 
   return (name: string) => {
-    const kebab = camelToKebab(name)
-    if (!kebab.startsWith(prefix))
-      return
+    let collection: string
+    let icon: string
+    if (name.includes(':')) {
+      const [iconPrefix, iconSuffix] = name.split(':')
+      collection = camelToKebab(iconPrefix)
+      if (!collection.startsWith(prefix))
+        return
 
-    const slice = kebab.slice(prefix.length)
-    const collection = collections.find(i => slice.startsWith(`${i}-`)) || collections.find(i => slice.startsWith(i))
-    if (!collection)
-      return
+      const slice = collection.slice(prefix.length)
+      // find the collection
+      const resolvedCollection = collections.find(i => slice === i)
+      if (!resolvedCollection)
+        return
 
-    let icon = slice.slice(collection.length)
+      collection = resolvedCollection
+
+      icon = camelToKebab(iconSuffix)
+    }
+    else {
+      const kebab = camelToKebab(name)
+      if (!kebab.startsWith(prefix))
+        return
+
+      const slice = kebab.slice(prefix.length)
+      const resolvedCollection = collections.find(i => slice.startsWith(`${i}-`)) || (!strict && collections.find(i => slice.startsWith(i)))
+      if (!resolvedCollection)
+        return
+
+      collection = resolvedCollection
+      icon = slice.slice(resolvedCollection.length)
+    }
+
     if (icon[0] === '-')
       icon = icon.slice(1)
 

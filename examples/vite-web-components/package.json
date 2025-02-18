@@ -1,13 +1,20 @@
 {
+  "name": "vite-web-components-example",
+  "type": "module",
   "private": true,
+  "description": "unplugin-icons + Web Components (Vite)",
   "scripts": {
     "dev": "vite",
     "build": "vite build"
   },
   "devDependencies": {
-    "@iconify-json/ion": "^1.1.12",
-    "@iconify-json/mono-icons": "^1.1.5",
+    "@iconify-json/ion": "^1.2.2",
+    "@iconify-json/mono-icons": "^1.2.0",
     "unplugin-icons": "workspace:*",
-    "vite": "^4.4.9"
+    "vite": "^6.1.0"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }

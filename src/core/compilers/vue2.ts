@@ -1,6 +1,6 @@
+import type { Compiler } from './types'
 import { importModule } from 'local-pkg'
 import { handleSVGId } from '../svgId'
-import type { Compiler } from './types'
 
 // refer to: https://github.com/underfin/vite-plugin-vue2/blob/master/src/template/compileTemplate.ts
 export const Vue2Compiler = (async (
@@ -9,10 +9,8 @@ export const Vue2Compiler = (async (
   icon: string,
 ) => {
   const { compile } = await importModule('vue-template-compiler')
-  // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-  // @ts-ignore @ts-expect-error
-  const transpile = (await importModule('vue-template-es2015-compiler'))
-    .default
+  const transpileMod = (await importModule('vue-template-es2015-compiler'))
+  const transpile = transpileMod.default || transpileMod
 
   const { injectScripts, svg: handled } = handleSVGId(svg)
 

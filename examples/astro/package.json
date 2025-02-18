@@ -1,7 +1,9 @@
 {
+  "name": "astro-example",
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "description": "unplugin-icons + Astro",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -10,10 +12,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.10.14"
+    "astro": "^4.16.18"
   },
   "devDependencies": {
-    "@iconify/json": "^2.2.106",
+    "@iconify/json": "^2.2.308",
     "unplugin-icons": "workspace:*"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }

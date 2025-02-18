@@ -7,9 +7,9 @@ Access thousands of icons as components **on-demand** universally.
 ### Features
 
 - 🌏 Universal
-  - 🤹 **Any** icon sets - 100+ popular sets with over 10,000 icons, logos, emojis, etc. Powered by [Iconify](https://github.com/iconify/iconify).
-  - 📦 **Major** build tools - Vite, Webpack, Rollup, Nuxt, etc. Powered by [unplugin](https://github.com/unjs/unplugin).
-  - 🪜 **Major** frameworks - Vanilla, Web Components, React, Vue 3, Vue 2, Solid, Svelte, and more. [Contribute](./src/core/compiles).
+  - 🤹 **Any** icon sets - ~150 popular sets with over 200,000 icons, logos, emojis, etc. Powered by [Iconify](https://github.com/iconify/iconify).
+  - 📦 **Major** build tools - Vite, Webpack, Rollup, Nuxt, Rspack, etc. Powered by [unplugin](https://github.com/unjs/unplugin).
+  - 🚀 **Major** frameworks - Vanilla, Web Components, React, Vue 3, Vue 2, Solid, Svelte, and more. [Contribute](./src/core/compilers).
   - 🍱 **Any** combinations of them!
 - ☁️ On-demand - Only bundle the icons you really use, while having all the options.
 - 🖨 SSR / SSG friendly - Ship the icons with your page, no more FOUC.
@@ -19,11 +19,11 @@ Access thousands of icons as components **on-demand** universally.
 - 🦾 TypeScript support.
 - 🔍 [Browse Icons](https://icones.js.org/)
 
-<table><td><br>
+<table><tr><td><br>
 
 &nbsp;&nbsp;&nbsp;💡 **Story behind this tool**: [Journey with Icons Continues](https://antfu.me/posts/journey-with-icons-continues) - a blog post by Anthony&nbsp;&nbsp;&nbsp;
 
-</td></table>
+</td></tr></table>
 
 > **`vite-plugin-icons` has been renamed to `unplugin-icons`**, see the [migration guide](#migrate-from-vite-plugin-icons)
 
@@ -41,7 +41,7 @@ function App() {
   return (
     <div>
       <IconAccessibility />
-      <IconAccountBox style={{ fontSize: '2em', color: 'red' }}/>
+      <IconAccountBox style={{ fontSize: '2em', color: 'red' }} />
     </div>
   )
 }
@@ -103,6 +103,12 @@ Icons({
 
 It will install the icon set when you import them. The right package manager will be auto-detected (`npm`, `yarn` or `pnpm`).
 
+## Examples
+
+You can play online with the examples in this repo in StackBlitz, see [playgrounds page](./examples/README.md).
+
+Fork any of the online examples and reproduce the issue you're facing, then share the link with us.
+
 ## Configuration
 
 ###### Build Tools
@@ -139,7 +145,6 @@ export default {
 
 <br></details>
 
-
 <details>
 <summary>Webpack</summary><br>
 
@@ -148,7 +153,7 @@ export default {
 module.exports = {
   /* ... */
   plugins: [
-    require('unplugin-icons/webpack')({ /* options */ }),
+    require('unplugin-icons/webpack').default({ /* options */ }),
   ],
 }
 ```
@@ -180,7 +185,48 @@ export default defineNuxtConfig({
 })
 ```
 
+Or work with [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) resolvers
+
+```ts
+import IconsResolver from 'unplugin-icons/resolver'
+import ViteComponents from 'unplugin-vue-components/vite'
+
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: [
+    'unplugin-icons/nuxt',
+  ],
+  vite: {
+    plugins: [
+      ViteComponents({
+        resolvers: [
+          IconsResolver({/* options */}),
+        ],
+      }),
+    ],
+  },
+})
+```
+
+See [the Nuxt example](examples/nuxt3) for a working example project.
+
 <br></details>
+
+<details>
+<summary>Rspack</summary>
+
+```ts
+import Icons from 'unplugin-icons/rspack'
+
+// rspack.config.mjs
+export default defineConfig({
+  plugins: [
+    // ...
+    Icons({/* options */}),
+  ]
+})
+```
+</details>
 
 <details>
 <summary>Vue CLI</summary><br>
@@ -190,7 +236,21 @@ export default defineNuxtConfig({
 module.exports = {
   configureWebpack: {
     plugins: [
-      require('unplugin-icons/webpack')({ /* options */ }),
+      require('unplugin-icons/webpack').default({ /* options */ }),
+    ],
+  },
+}
+```
+
+You can also rename the Vue configuration file to `vue.config.mjs` and use static import syntax (you should use latest `@vue/cli-service ^5.0.8`):
+```ts
+// vue.config.mjs
+import Icons from 'unplugin-icons/webpack'
+
+export default {
+  configureWebpack: {
+    plugins: [
+      Icons({ /* options */ }),
     ],
   },
 }
@@ -204,10 +264,10 @@ module.exports = {
 The `unplugin-icons` plugin should be configured in the `vite.config.js` configuration file:
 
 ```ts
-// vite.config.js
-import { defineConfig } from 'vite'
 import { sveltekit } from '@sveltejs/kit/vite'
 import Icons from 'unplugin-icons/vite'
+// vite.config.js
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
@@ -220,6 +280,8 @@ export default defineConfig({
 ```
 
 Check instructions in the `Frameworks -> Svelte` section below if you faced module import errors.
+
+See [the SvelteKit example](examples/sveltekit) for a working example project.
 
 <br></details>
 
@@ -234,10 +296,10 @@ npm i -D @sveltejs/vite-plugin-svelte
 The `unplugin-icons` plugin should be configured in the `vite.config.js` configuration file:
 
 ```ts
-// vite.config.js
-import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import Icons from 'unplugin-icons/vite'
+// vite.config.js
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
@@ -251,27 +313,50 @@ export default defineConfig({
 
 Check instructions in the `Frameworks -> Svelte` section below if you faced module import errors.
 
+See [the Svelte + Vite example](examples/vite-svelte) for a working example project.
+
 <br></details>
 
 <details>
 <summary>Next.js</summary><br>
 
 The `unplugin-icons` plugin should be configured on `next.config.js` configuration file:
-
-```js
+```ts
+// next.config.js
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
   webpack(config) {
     config.plugins.push(
-      require('unplugin-icons/webpack')({
+      require('unplugin-icons/webpack').default({
         compiler: 'jsx',
-        jsx: 'react',
-      }),
+        jsx: 'react'
+      })
     )
 
     return config
   },
+}
+```
+
+You can also rename the Next configuration file to `next.config.mjs` and use static import syntax:
+```ts
+// next.config.mjs
+import Icons from 'unplugin-icons/webpack'
+
+/** @type {import('next').NextConfig} */
+export default {
+  reactStrictMode: true,
+  webpack(config) {
+    config.plugins.push(
+      Icons({
+        compiler: 'jsx',
+        jsx: 'react'
+      })
+    )
+
+    return config
+  }
 }
 ```
 
@@ -289,10 +374,9 @@ import IconArrowRight from '~icons/dashicons/arrow-right.jsx';
 <IconArrowRight />
 ```
 
-See inside of `examples/next` for a working example project.
+See [the Next.js example](examples/next) for a working example project.
 
 <br></details>
-
 
 <details>
 <summary>esbuild</summary><br>
@@ -300,11 +384,12 @@ See inside of `examples/next` for a working example project.
 ```ts
 // esbuild.config.js
 import { build } from 'esbuild'
+import Icons from 'unplugin-icons/esbuild'
 
 build({
   /* ... */
   plugins: [
-    require('unplugin-icons/esbuild')({
+    Icons({
       /* options */
     }),
   ],
@@ -333,10 +418,41 @@ export default defineConfig({
 })
 ```
 
+See [the Astro example](examples/astro) for a working example project.
+
+<br></details>
+
+<details>
+<summary>Astro + Vue</summary><br>
+
+Required [@astrojs/vue](https://docs.astro.build/es/guides/integrations-guide/vue/) installed.
+
+```ts
+import Vue from '@astrojs/vue'
+// astro.config.mjs
+import { defineConfig } from 'astro/config'
+import Icons from 'unplugin-icons/vite'
+
+// https://astro.build/config
+export default defineConfig({
+  integrations: [
+    Vue(),
+  ],
+  vite: {
+    plugins: [
+      Icons({
+        compiler: 'vue3',
+      }),
+    ],
+  },
+})
+```
+
+See [the Astro + Vue example](examples/astro-vue) for a working example project.
+
 <br></details>
 
 ###### Frameworks
-
 
 <details>
 <summary>Vue 3 / Vue 2.7+</summary><br>
@@ -366,8 +482,9 @@ Type Declarations
 }
 ```
 
-<br></details>
+See [the Vue 3 example](examples/vite-vue3) for a working example project.
 
+<br></details>
 
 <details>
 <summary>Vue 2 (only for versions < 2.7)</summary><br>
@@ -388,7 +505,7 @@ Type Declarations
 
 ```jsonc
 // tsconfig.json
-{ 
+{
   "compilerOptions": {
     "types": [
       "unplugin-icons/types/vue",
@@ -396,6 +513,8 @@ Type Declarations
   }
 }
 ```
+
+See [the Vue 2 example](examples/vite-vue2) for a working example project.
 
 <br></details>
 
@@ -418,7 +537,7 @@ Type Declarations
 
 ```jsonc
 // tsconfig.json
-{ 
+{
   "compilerOptions": {
     "types": [
       "unplugin-icons/types/react",
@@ -427,8 +546,9 @@ Type Declarations
 }
 ```
 
-<br></details>
+See [the React example](examples/vite-react) for a working example project.
 
+<br></details>
 
 <details>
 <summary>Preact</summary><br>
@@ -449,7 +569,7 @@ Type Declarations
 
 ```jsonc
 // tsconfig.json
-{ 
+{
   "compilerOptions": {
     "types": [
       "unplugin-icons/types/preact",
@@ -458,12 +578,12 @@ Type Declarations
 }
 ```
 
-<br></details>
+See [the Preact example](examples/vite-preact) for a working example project.
 
+<br></details>
 
 <details>
 <summary>Solid</summary><br>
-
 
 ```ts
 Icons({ compiler: 'solid' })
@@ -484,11 +604,12 @@ Type Declarations
 }
 ```
 
+See [the Solid example](examples/vite-solid) for a working example project.
+
 <br></details>
 
 <details>
 <summary>Svelte</summary><br>
-
 
 ```ts
 Icons({ compiler: 'svelte' })
@@ -510,6 +631,22 @@ For Svelte + Vite, in the `src/vite-env.d.ts` file:
 /// <reference types="unplugin-icons/types/svelte" />
 ```
 
+If you're still using Svelte 4, replace the reference to use Svelte 4:
+```js
+/// <reference types="svelte" />
+/// <reference types="vite/client" />
+/// <reference types="unplugin-icons/types/svelte4" />
+```
+
+If you're still using Svelte 3, replace the reference to use Svelte 3:
+```js
+/// <reference types="svelte" />
+/// <reference types="vite/client" />
+/// <reference types="unplugin-icons/types/svelte3" />
+```
+
+See [the Svelte example](examples/vite-svelte) for a working example project.
+
 <br></details>
 
 <details>
@@ -521,7 +658,7 @@ Type Declarations
 
 ```jsonc
 // tsconfig.json
-{ 
+{
   "compilerOptions": {
     "types": [
       "unplugin-icons/types/astro",
@@ -529,6 +666,28 @@ Type Declarations
   }
 }
 ```
+
+See [the Astro example](examples/astro) for a working example project.
+
+<br></details>
+
+<details>
+<summary>Astro + Vue</summary><br>
+
+Only the Vue type declarations are required:
+
+```jsonc
+// tsconfig.json
+{
+  "compilerOptions": {
+    "types": [
+      "unplugin-icons/types/vue"
+    ]
+  }
+}
+```
+
+See [the Astro + Vue example](examples/astro-vue) for a working example project.
 
 <br></details>
 
@@ -545,13 +704,22 @@ npm i -D @svgx/core
 Icons({ compiler: 'qwik' })
 ```
 
+Alternatively, you can use `jsx` compiler, requires peer dependency `@svgr/core` and its plugin `@svgr/plugin-jsx`:
+```bash
+npm i -D @svgr/core @svgr/plugin-jsx
+```
+
+```ts
+Icons({ compiler: 'jsx', jsx: 'qwik' })
+```
+
 Type Declarations
 
 <!-- eslint-skip -->
 
 ```jsonc
 // tsconfig.json
-{ 
+{
   "compilerOptions": {
     "types": [
       "unplugin-icons/types/qwik",
@@ -559,6 +727,8 @@ Type Declarations
   }
 }
 ```
+
+See [the Qwik example](examples/vite-qwik) for a working example project.
 
 <br></details>
 
@@ -639,7 +809,7 @@ import IconBar from '~icons/my-yet-other-icons/bar'
 
 ### Use with Resolver
 
-When using with resolvers for auto-importing, you will need to tell it your custom collection names:
+When using resolvers for auto-importing, you will need to tell it your custom collection names:
 
 ```ts
 IconResolver({
@@ -653,13 +823,56 @@ IconResolver({
 
 See the [Vue 3 + Vite example](./examples/vite-vue3/vite.config.ts).
 
+### Use Custom External Collection Packages
+
+From version `v0.18.3` you can use other packages to load icons from others authors.
+
+**WARNING**: external packages must include `icons.json` file with the `icons` data in `IconifyJSON` format, which can be exported with Iconify Tools. Check [Exporting icon set as JSON package](https://iconify.design/docs/libraries/tools/export/json-package.html) for more details.
+
+For example, you can use `an-awesome-collection` or `@my-awesome-collections/some-collection` to load your custom or third party icons:
+```ts
+// loader helpers
+import { ExternalPackageIconLoader } from 'unplugin-icons/loaders'
+
+Icons({ customCollections: ExternalPackageIconLoader('my-awesome-collection') })
+```
+
+When using with resolvers for auto-importing, remember you will need to tell it your custom collection names:
+```ts
+IconResolver({
+  customCollections: [
+    'my-awesome-collection',
+  ],
+})
+```
+
+You can also combine it with `FileSystemIconLoader` or with other custom icon loaders:
+```ts
+// loader helpers
+import { ExternalPackageIconLoader, FileSystemIconLoader } from 'unplugin-icons/loaders'
+
+Icons({
+  customCollections: {
+    ...ExternalPackageIconLoader('an-awesome-collection'),
+    ...ExternalPackageIconLoader('@my-awesome-collections/some-collection'),
+    ...ExternalPackageIconLoader('@my-awesome-collections/some-other-collection'),
+    'my-yet-other-icons': FileSystemIconLoader(
+      './assets/icons',
+      svg => svg.replace(/^<svg /, '<svg fill="currentColor" '),
+    ),
+  },
+})
+```
+
+See the [Vue 3 + Vite example](./examples/vite-vue3/vite.config.ts).
+
 ## Icon customizer
 
 From `v0.13` you can also customize each icon using `iconCustomizer` configuration option or using query params when importing them.
 
-The `query` param will take precedence over `iconCustomizer` and `iconCustomizer`  over `configuration`.
+The `query` param will take precedence over `iconCustomizer` and `iconCustomizer` over `configuration`.
 
-The `iconCustomizer` and `query` params will be applied to any collection, that is, for each icon from `custom` loader, `inlined` on `customCollections` or from `@iconify`. 
+The `iconCustomizer` and `query` params will be applied to any collection, that is, for each icon from `custom` loader, `inlined` on `customCollections` or from `@iconify`.
 
 For example, you can configure `iconCustomizer` to change all icons for a collection or individual icons on a collection:
 
@@ -776,7 +989,7 @@ Read [Cleaning up icons](https://docs.iconify.design/articles/cleaning-up-icons/
 }
 ```
 
-`vite.config.json`
+`vite.config.js`
 
 ```diff
 import Components from 'unplugin-vue-components/vite'
@@ -808,7 +1021,7 @@ export default {
 
 ## Options
 
-You can set default styling for all icons. 
+You can set default styling for all icons.
 The following config shows the default values of each option:
 
 ```ts
@@ -833,8 +1046,8 @@ For example in Vite:
 ```js
 // vite.config.js
 import Vue from '@vitejs/plugin-vue'
-import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 
 export default {
@@ -869,10 +1082,10 @@ Use with [`unplugin-auto-import`](https://github.com/antfu/unplugin-auto-import)
 For example in Vite:
 
 ```js
+import AutoImport from 'unplugin-auto-import/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 // vite.config.js
 import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-import AutoImport from 'unplugin-auto-import/vite'
 
 export default {
   plugins: [
@@ -901,7 +1114,7 @@ export function Component() {
   return (
     <div>
       <IconCarbonApps />
-      <IconMdiAccountBox style="font-size: 2em; color: red"/>
+      <IconMdiAccountBox style="font-size: 2em; color: red" />
     </div>
   )
 }
@@ -951,7 +1164,7 @@ IconsResolver({
 
 ### Collection Aliases
 
-When using component resolver, you have to use the name of the collection that can be long or redundant: for example, 
+When using component resolver, you have to use the name of the collection that can be long or redundant: for example,
 when using `icon-park` collection you need to use it like this `<icon-icon-park-abnormal />`.
 
 You can add an alias for any collection to the `IconResolver` plugin:
@@ -968,7 +1181,7 @@ IconsResolver({
 
 You can use the alias or the collection name, the plugin will resolve both.
 
-Following with the example and configuring the plugin with previous `alias` entry, you can now use 
+Following with the example and configuring the plugin with previous `alias` entry, you can now use
 `<icon-park-abnormal />` or `<icon-icon-park-abnormal />`.
 
 ## Sponsors
@@ -983,4 +1196,4 @@ This project is part of my <a href='https://github.com/antfu-sponsors'>Sponsor P
 
 ## License
 
-MIT License © 2020-PRESENT [Anthony Fu](https://github.com/antfu)
+[MIT](./LICENSE) License © 2020-PRESENT [Anthony Fu](https://github.com/antfu)

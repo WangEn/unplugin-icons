@@ -1,6 +1,7 @@
 {
   "name": "next-example",
   "private": true,
+  "description": "unplugin-icons + Next",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,11 +13,16 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@iconify/json": "2.2.106",
+    "@iconify/json": "2.2.110",
     "@svgr/core": "8.1.0",
-    "@types/node": "20.5.7",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@types/node": "20.5.9",
     "@types/react": "18.2.21",
     "typescript": "5.2.2",
     "unplugin-icons": "workspace:*"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
   }
 }

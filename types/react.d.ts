@@ -1,12 +1,12 @@
 declare module 'virtual:icons/*' {
-  import type { SVGProps } from 'react'
-  import type React from 'react'
-  const component: (props: SVGProps<SVGSVGElement>) => React.ReactElement
+  import type { ForwardRefExoticComponent, SVGProps } from 'react'
+
+  const component: ForwardRefExoticComponent<SVGProps<SVGSVGElement>>
   export default component
 }
 declare module '~icons/*' {
-  import type { SVGProps } from 'react'
-  import type React from 'react'
-  const component: (props: SVGProps<SVGSVGElement>) => React.ReactElement
+  import type { ForwardRefExoticComponent, SVGProps } from 'react'
+
+  const component: ForwardRefExoticComponent<SVGProps<SVGSVGElement>>
   export default component
 }
